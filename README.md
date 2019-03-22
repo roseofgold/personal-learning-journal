@@ -10,7 +10,7 @@ The purpose of this application is to test basic understanding of PHP, sqlite co
 * Create "list" view for the "index" page.
   * [x] The list view contains a list of journal entries, which displays Title and Date of each Entry.
   * The title should be hyperlinked to the detail page for each journal entry.
-  * Entries should be sorted by date.
+  * [x] Entries should be sorted by date.
 * Include a link to add an entry.
 * Create "details" view with the entries displaying all fields: title, date, time_spent, learned, and resources. Include a link to edit the entry.
 * Add the ability to delete a journal entry.
