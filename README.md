@@ -8,7 +8,7 @@ The purpose of this application is to test basic understanding of PHP, sqlite co
 * Use prepared statements to add/edit/delete journal entries in the database.
 * Create “add/edit” view for the "entry" page. The following fields should be included: title, date, time_spent, learned, and resources.
 * Create "list" view for the "index" page.
-  * The list view contains a list of journal entries, which displays Title and Date of each Entry.
+  * [x] The list view contains a list of journal entries, which displays Title and Date of each Entry.
   * The title should be hyperlinked to the detail page for each journal entry.
   * Entries should be sorted by date.
 * Include a link to add an entry.
