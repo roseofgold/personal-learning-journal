@@ -4,7 +4,7 @@ A journal of information that I've learned.
 The purpose of this application is to test basic understanding of PHP, sqlite connections and database calls. This project was created for TreeHouse Talentpath.
 
 ## Features
-* Connect to SQLite database.
+* [x] Connect to SQLite database.
 * Use prepared statements to add/edit/delete journal entries in the database.
 * Create “add/edit” view for the "entry" page. The following fields should be included: title, date, time_spent, learned, and resources.
 * Create "list" view for the "index" page.
