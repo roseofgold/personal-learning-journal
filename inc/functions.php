@@ -3,14 +3,27 @@ function getEntryShort(){
   include("connection.php");
 
   try{
-    $results = $db->query("SELECT title, date FROM entries");
+    $results = $db->prepare("SELECT title, date FROM entries");
   } catch (Exception $e){
     echo "Unable to retrieve results.";
     exit;
   }
+  $results->execute();
 
   $entries = $results->fetchAll();
   return $entries;
+}
+
+function displayShortEntries(){
+  $entryShort = getEntryShort();
+
+  foreach ($entryShort as $key) {
+    echo "<article>";
+    echo "<h2><a href=\"detail.php\">" . $key['title'] . "</a></h2>";
+    echo "<time datetime=\"" . $key['date'] . "\">" . date('F j, Y',strtotime($key['date'])) . "</time>";
+    echo "</article>";
+  }
+
 }
 
 function getDetailedEntry(){
@@ -24,7 +37,7 @@ function getDetailedEntry(){
   }
 
   $entries = $results->fetchAll();
-  return $entries
+  return $entries;
 }
 
 function addEntry($title,$date,$time_spent,$learned,$resources){
