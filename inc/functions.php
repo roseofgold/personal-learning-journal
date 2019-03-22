@@ -1,5 +1,5 @@
 <?php
-funtion getEntryShort(){
+function getEntryShort(){
   include("connection.php");
 
   try{
@@ -10,10 +10,10 @@ funtion getEntryShort(){
   }
 
   $entries = $results->fetchAll();
-  return $entries
+  return $entries;
 }
 
-funtion getDetailedEntry(){
+function getDetailedEntry(){
   include("connection.php");
 
   try{
@@ -27,7 +27,7 @@ funtion getDetailedEntry(){
   return $entries
 }
 
-funtion addEntry($title,$date,$time_spent,$learned,$resources){
+function addEntry($title,$date,$time_spent,$learned,$resources){
   include("connection.php");
 
   try{
