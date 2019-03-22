@@ -3,7 +3,7 @@ function getEntryShort(){
   include("connection.php");
 
   try{
-    $results = $db->prepare("SELECT title, date FROM entries");
+    $results = $db->prepare("SELECT title, date FROM entries ORDER BY date DESC");
   } catch (Exception $e){
     echo "Unable to retrieve results.";
     exit;
