@@ -1,14 +1,35 @@
 <?php
-funtion getEntry(){
+funtion getEntryShort(){
+  include("connection.php");
+
+  try{
+    $results = $db->query("SELECT title, date FROM entries");
+  } catch (Exception $e){
+    echo "Unable to retrieve results.";
+    exit;
+  }
+
+  $entries = $results->fetchAll();
+  return $entries
+}
+
+funtion getDetailedEntry(){
+  include("connection.php");
+
   try{
     $results = $db->query("SELECT * FROM entries");
   } catch (Exception $e){
     echo "Unable to retrieve results.";
     exit;
   }
+
+  $entries = $results->fetchAll();
+  return $entries
 }
 
 funtion addEntry($title,$date,$time_spent,$learned,$resources){
+  include("connection.php");
+
   try{
     $results = $db->query("
       INSERT INTO entries
@@ -21,6 +42,8 @@ funtion addEntry($title,$date,$time_spent,$learned,$resources){
 }
 
 function editEntry($title,$date,$time_spent,$learned,$resources,$id){
+  include("connection.php");
+
   try{
     $results = $db->query("
       UPDATE entries
@@ -34,6 +57,8 @@ function editEntry($title,$date,$time_spent,$learned,$resources,$id){
 }
 
 function deleteEntry($id){
+  include("connection.php");
+
   try{
     $results = $db->query("DELETE FROM entries WHERE id=$id");
   } catch (Exception $e){
