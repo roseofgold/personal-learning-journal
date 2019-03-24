@@ -32,13 +32,13 @@ function getDetailedEntry($id){
   try{
     $results = $db->prepare("SELECT * FROM entries WHERE id = ?");
     $results->bindValue(1,$id,PDO::PARAM_INT);
+    $results->execute();
   } catch (Exception $e){
     echo "Unable to retrieve results.";
     exit;
   }
-  $results->execute();
 
-  $entries = $results->fetchAll();
+  $entries = $results->fetch(PDO::FETCH_ASSOC);
   return $entries;
 }
 
