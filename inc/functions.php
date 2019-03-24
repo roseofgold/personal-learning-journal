@@ -30,7 +30,8 @@ function getDetailedEntry($id){
   include("connection.php");
 
   try{
-    $results = $db->prepare("SELECT * FROM entries WHERE id = $id");
+    $results = $db->prepare("SELECT * FROM entries WHERE id = ?");
+    $results->bindValue(1,$id,PDO::PARAM_INT);
   } catch (Exception $e){
     echo "Unable to retrieve results.";
     exit;
