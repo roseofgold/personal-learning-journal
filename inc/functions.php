@@ -19,7 +19,7 @@ function displayShortEntries(){
 
   foreach ($entryShort as $key) {
     echo "<article>";
-    echo "<h2><a href=\"detail.php?pg=" . $key['id'] . "\">" . $key['title'] . "</a></h2>";
+    echo "<h2><a href=\"detail.php?id=" . $key['id'] . "\">" . $key['title'] . "</a></h2>";
     echo "<time datetime=\"" . $key['date'] . "\">" . date('F j, Y',strtotime($key['date'])) . "</time>";
     echo "</article>";
   }
