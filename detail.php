@@ -19,17 +19,17 @@ $entry = getDetailedEntry($id);
                         </div>
                         <div class="entry">
                             <h3>What I Learned:</h3>
-                            <?php echo htmlspecialchars_decode($entry['learned']); ?>
+                            <p><?php echo htmlspecialchars_decode($entry['learned']); ?></p>
                         </div>
                         <div class="entry">
                             <h3>Resources to Remember:</h3>
-                            <?php echo htmlspecialchars_decode($entry['resources']); ?>
+                            <p><?php echo htmlspecialchars_decode($entry['resources']); ?></p>
                         </div>
                     </article>
                 </div>
             </div>
             <div class="edit">
-                <p><a href="edit.html">Edit Entry</a></p>
+                <p><a href="edit.php">Edit Entry</a></p>
             </div>
         </section>
 <?php include 'inc/footer.php'; ?>
