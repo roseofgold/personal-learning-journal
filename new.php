@@ -3,6 +3,8 @@ ini_set("display_errors", "on");
 include 'inc/header.php';
 include "inc/functions.php";
 
+$title = $date = $whatLearned = $resources = $timeSpent = '';
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $title = trim(filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING));
   $date = trim(filter_input(INPUT_POST,'date',FILTER_SANITIZE_STRING));
@@ -14,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember';
   } else{
     if(addEntry($title,$date,$timeSpent,$whatLearned,$resources)){
-      header('Location: detail.php');
+      header('Location: index.php');
       exit;
     } else {
       $error_message = 'Entry was not entered';

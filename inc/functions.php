@@ -59,6 +59,8 @@ function addEntry($title,$date,$time_spent,$learned,$resources){
     echo "Unable to add entry: " . $e->getMessage();
     exit;
   }
+  
+  return $results;
 }
 
 function editEntry($title,$date,$time_spent,$learned,$resources,$id){
