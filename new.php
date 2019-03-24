@@ -13,7 +13,7 @@ if(!empty($_POST)){
   if (empty($title) || empty($date) || empty($timeSpent) || empty($whatLearned) || empty($resources)) {
       $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember';
   } else{
-    if(add_entry($title,$date,$timeSpent,$whatLearned,$resources)){
+    if(addEntry($title,$date,$timeSpent,$whatLearned,$resources)){
       header('Location: detail.php');
       exit;
     } else {

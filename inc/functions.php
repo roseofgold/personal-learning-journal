@@ -45,17 +45,14 @@ function addEntry($title,$date,$time_spent,$learned,$resources){
   include("connection.php");
 
   try{
-    $results = $db->prepare("
+    $results = $db->query("
       INSERT INTO entries
       VALUES (NULL,$title,$date,$time_spent,$learned,$resources)
     ");
   } catch (Exception $e){
-    echo "Unable to retrieve results.";
+    echo "Unable to add entry.";
     exit;
   }
-
-  $results->execute();
-
 }
 
 function editEntry($title,$date,$time_spent,$learned,$resources,$id){
