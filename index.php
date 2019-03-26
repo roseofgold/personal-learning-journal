@@ -1,6 +1,14 @@
 <?php
 include 'inc/header.php';
 include "inc/functions.php";
+
+if(isset($_GET['msg'])){
+  $error_message = trim(filter_input(INPUT_GET,'msg', FILTER_SANITIZE_STRING));
+}
+
+if (isset($error_message)) {
+    echo "<p class='message'>$error_message</p>";
+}
 ?>
 
 <section>
