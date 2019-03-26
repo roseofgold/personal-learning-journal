@@ -97,6 +97,7 @@ function deleteEntry($id){
 
   $results->execute();
 
+  return $results;
 }
 
 ?>
