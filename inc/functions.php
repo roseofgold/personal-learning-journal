@@ -51,7 +51,7 @@ function addEntry($title,$date,$time_spent,$learned,$resources){
     $results = $db->prepare($sql);
     $results->bindValue(1,$title,PDO::PARAM_STR);
     $results->bindValue(2,$date,PDO::PARAM_STR);
-    $results->bindValue(3,$time_spent,PDO::PARAM_INT);
+    $results->bindValue(3,$time_spent,PDO::PARAM_STR);
     $results->bindValue(4,$learned,PDO::PARAM_STR);
     $results->bindValue(5,$resources,PDO::PARAM_STR);
     $results->execute();
@@ -59,26 +59,30 @@ function addEntry($title,$date,$time_spent,$learned,$resources){
     echo "Unable to add entry: " . $e->getMessage();
     exit;
   }
-  
+
   return $results;
 }
 
 function editEntry($title,$date,$time_spent,$learned,$resources,$id){
   include("connection.php");
 
+  $sql = 'UPDATE entries SET title = ?, date = ?, time_spent = ?, learned = ?, resources = ? WHERE id = ?';
+
   try{
-    $results = $db->prepare("
-      UPDATE entries
-      SET title = $title, date = $date, time_spent = $time_spent, learned = $learned, resources = $resources
-      WHERE id = $id
-    ");
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$title,PDO::PARAM_STR);
+    $results->bindValue(2,$date,PDO::PARAM_STR);
+    $results->bindValue(3,$time_spent,PDO::PARAM_STR);
+    $results->bindValue(4,$learned,PDO::PARAM_STR);
+    $results->bindValue(5,$resources,PDO::PARAM_STR);
+    $results->bindValue(6,$id,PDO::PARAM_INT);
+    $results->execute();
   } catch (Exception $e){
-    echo "Unable to retrieve results.";
+    echo "Unable to retrieve results: " . $e->getMessage();
     exit;
   }
 
-  $results->execute();
-
+    return $results;
 }
 
 function deleteEntry($id){
