@@ -88,16 +88,22 @@ function editEntry($title,$date,$time_spent,$learned,$resources,$id){
 function deleteEntry($id){
   include("connection.php");
 
+  $sql = 'DELETE FROM entries WHERE id=?';
+
   try{
-    $results = $db->query("DELETE FROM entries WHERE id=$id");
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$id,PDO::PARAM_INT);
+    $results->execute();
   } catch (Exception $e){
-    echo "Unable to retrieve results.";
-    exit;
+    echo "Unable to retrieve results: " . $e->getMessage() . "<br />";
+    return false;
   }
 
-  $results->execute();
-
-  return $results;
+  if($results->rowCount() >0){
+      return true;
+  } else{
+      return false;
+  }
 }
 
 ?>
