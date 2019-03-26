@@ -4,6 +4,25 @@ include 'inc/functions.php';
 
 $id = trim(filter_input(INPUT_GET,'id', FILTER_SANITIZE_NUMBER_INT));
 $entry = getDetailedEntry($id);
+
+if(isset($_POST['delete'])){
+  if(deleteEntry(filter_input(INPUT_POST,'delete',FILTER_SANITIZE_NUMBER_INT))){
+    header('location:index.php?msg=Project+Deleted');
+    exit;
+  } else{
+    echo 'false';
+    header('location:details.php?id=' . $id . '?msg=Unable+to+Delete+Project');
+    exit;
+  }
+}
+
+if(isset($_GET['msg'])){
+  $error_message = trim(filter_input(INPUT_GET,'msg', FILTER_SANITIZE_STRING));
+}
+
+if (isset($error_message)) {
+    echo "<p class='message'>$error_message</p>";
+}
 ?>
         <section>
             <div class="container">
@@ -29,7 +48,11 @@ $entry = getDetailedEntry($id);
                 </div>
             </div>
             <div class="edit">
-                <p><a href="edit.php?id=<?php echo $id ?>">Edit Entry</a></p>
-            </div>
+              <p><a href="edit.php?id=<?php echo $id ?>">Edit Entry</a></p>
+              <form method='post' action='detail.php?id=<?php echo $id ?>' onsubmit="return confirm('Are you sure you want to delete this project?');">
+                  <input type='hidden' value='<?php echo $id; ?>' name='delete' />
+                  <input type='submit' class='button--delete' value='Delete Entry' />
+              </form>
+          </div>
         </section>
 <?php include 'inc/footer.php'; ?>
