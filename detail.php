@@ -29,7 +29,7 @@ $entry = getDetailedEntry($id);
                 </div>
             </div>
             <div class="edit">
-                <p><a href="edit.php">Edit Entry</a></p>
+                <p><a href="edit.php?id=<?php echo $id ?>">Edit Entry</a></p>
             </div>
         </section>
 <?php include 'inc/footer.php'; ?>
