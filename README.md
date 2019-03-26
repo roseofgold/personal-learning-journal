@@ -5,14 +5,14 @@ The purpose of this application is to test basic understanding of PHP, sqlite co
 
 ## Features
 * [x] Connect to SQLite database.
-* Use prepared statements to add/edit/delete journal entries in the database.
-* Create “add/edit” view for the "entry" page. The following fields should be included: title, date, time_spent, learned, and resources.
-* Create "list" view for the "index" page.
+* [x] Use prepared statements to add/edit/delete journal entries in the database.
+* [x] Create “add/edit” view for the "entry" page. The following fields should be included: title, date, time_spent, learned, and resources.
+* [x] Create "list" view for the "index" page.
   * [x] The list view contains a list of journal entries, which displays Title and Date of each Entry.
-  * The title should be hyperlinked to the detail page for each journal entry.
+  * [x] The title should be hyperlinked to the detail page for each journal entry.
   * [x] Entries should be sorted by date.
-* Include a link to add an entry.
-* Create "details" view with the entries displaying all fields: title, date, time_spent, learned, and resources. Include a link to edit the entry.
+* [x] Include a link to add an entry.
+* [x] Create "details" view with the entries displaying all fields: title, date, time_spent, learned, and resources. Include a link to edit the entry.
 * Add the ability to delete a journal entry.
 
 ## Extra Features
