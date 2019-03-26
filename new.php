@@ -7,7 +7,7 @@ $title = $date = $whatLearned = $resources = $timeSpent = '';
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $title = trim(filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING));
   $date = trim(filter_input(INPUT_POST,'date',FILTER_SANITIZE_STRING));
-  $timeSpent = filter_input(INPUT_POST,'timeSpent',FILTER_SANITIZE_NUMBER_INT);
+  $timeSpent = filter_input(INPUT_POST,'timeSpent',FILTER_SANITIZE_STRING);
   $whatLearned = trim(filter_input(INPUT_POST,'whatILearned',FILTER_SANITIZE_STRING));
   $resources = trim(filter_input(INPUT_POST,'ResourcesToRemember',FILTER_SANITIZE_STRING));
 
