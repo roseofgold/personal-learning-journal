@@ -7,11 +7,11 @@ $entry = getDetailedEntry($id);
 
 if(isset($_POST['delete'])){
   if(deleteEntry(filter_input(INPUT_POST,'delete',FILTER_SANITIZE_NUMBER_INT))){
-    header('location:index.php?msg=Project+Deleted');
+    header('location:index.php?msg=Entry+Deleted');
     exit;
   } else{
     echo 'false';
-    header('location:details.php?id=' . $id . '?msg=Unable+to+Delete+Project');
+    header('location:details.php?id=' . $id . '?msg=Unable+to+Delete+Entry');
     exit;
   }
 }

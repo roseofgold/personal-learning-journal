@@ -181,6 +181,13 @@ ul li a {
 	text-transform: uppercase;
 	font-size: 18px;
 }
+.message{
+	display: block;
+  text-align: center;
+  background: red;
+  color: white;
+  font-weight: bold;
+}
 
 
 
@@ -224,17 +231,3 @@ form textarea:hover {
 input[type=submit] {
 	margin-right: 5px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
