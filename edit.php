@@ -48,6 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             <div class="container">
                 <div class="edit-entry">
                     <h2>Edit Entry</h2>
+                    <p>All fields are required.</p>
                     <?php
                     if (isset($error_message)){
                       echo "<p class='message'>$error_message</p>";
