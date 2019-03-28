@@ -4,6 +4,7 @@ include "inc/functions.php";
 
 $id = trim(filter_input(INPUT_GET,'id', FILTER_SANITIZE_NUMBER_INT));
 $entry = getDetailedEntry($id);
+$tags = getTags($id);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $title = trim(filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING));
@@ -11,9 +12,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $timeSpent = filter_input(INPUT_POST,'timeSpent',FILTER_SANITIZE_STRING);
   $whatLearned = trim(filter_input(INPUT_POST,'whatILearned',FILTER_SANITIZE_STRING));
   $resources = trim(filter_input(INPUT_POST,'ResourcesToRemember',FILTER_SANITIZE_STRING));
+  $tag_list = trim(filter_input(INPUT_POST,'tags',FILTER_SANITIZE_STRING));
 
-  if (empty($title) || empty($date) || empty($timeSpent) || empty($whatLearned) || empty($resources)) {
-      $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember';
+  if (empty($title) || empty($date) || empty($timeSpent) || empty($whatLearned) || empty($resources) || empty($tag_list)) {
+      $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember, Tags';
   } else{
     if(editEntry($title,$date,$timeSpent,$whatLearned,$resources,$id)){
       header('Location: detail.php?id=?'.$id);
@@ -28,6 +30,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $timeSpent = $entry['time_spent'];
   $whatLearned = $entry['learned'];
   $resources = $entry['resources'];
+  $tag_list = '';
+  foreach($tags as $key => $element) {
+    $tag_list .= $element['tag'];
+    end($tags);
+    if (!($key === key($tags))){
+      $tag_list .= ',';
+    }
+  }
 }
 ?>
         <section>
@@ -51,6 +61,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                       <textarea id="what-i-learned" rows="5" name="whatILearned"><?php echo htmlspecialchars_decode($whatLearned); ?></textarea>
                       <label for="resources-to-remember">Resources to Remember</label>
                       <textarea id="resources-to-remember" rows="5" name="ResourcesToRemember"><?php echo htmlspecialchars_decode($resources); ?></textarea>
+                      <label for="tags">Tags</label>
+                      <input id="tags" type="text" name="tags" value="<?php echo $tag_list;?>"><br>
                       <input type="submit" value="Publish Entry" class="button">
                       <a href="#" class="button button-secondary">Cancel</a>
                     </form>
