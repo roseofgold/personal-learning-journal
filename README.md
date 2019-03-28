@@ -16,9 +16,9 @@ The purpose of this application is to test basic understanding of PHP, sqlite co
 * Add the ability to delete a journal entry.
 
 ## Extra Features
-* Add tags table and link tags to journal entries in the database.
-* Add tags to journal entries on the listing page
-* Allow the tags to be links to a list of entries, filtered by specific tags.
+* [x] Add tags table and link tags to journal entries in the database.
+* [x]Add tags to journal entries on the listing page
+* [x] Allow the tags to be links to a list of entries, filtered by specific tags.
 
 ## Support
 Contact: roseofgold@gmail.com
