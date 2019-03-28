@@ -1,9 +1,19 @@
 <?php
-function getEntryShort(){
+function getEntryShort($tag){
   include("connection.php");
 
+  $sql = 'SELECT DISTINCT entries.title, entries.date, entries.id FROM entries
+    JOIN entries_tags ON entries.id = entries_tags.entry_id
+    JOIN tags ON entries_tags.tag_id = tags.tag_id';
+
+  $where = '';
+  if ($tag != '') { $where = ' WHERE tags.tag_id = ?';}
+
+  $orderby = ' ORDER BY date DESC';
+
   try{
-    $results = $db->prepare("SELECT title, date, id FROM entries ORDER BY date DESC");
+    $results = $db->prepare($sql . $where . $orderby);
+    if($tag != ''){$results->bindValue(1,$tag);}
   } catch (Exception $e){
     echo "Unable to retrieve results.";
     exit;
@@ -14,8 +24,8 @@ function getEntryShort(){
   return $entries;
 }
 
-function displayShortEntries(){
-  $entryShort = getEntryShort();
+function displayShortEntries($tag = NULL){
+  $entryShort = getEntryShort($tag);
 
   foreach ($entryShort as $key) {
     echo "<article>";
@@ -30,7 +40,8 @@ function getDetailedEntry($id){
   include("connection.php");
 
   try{
-    $results = $db->prepare("SELECT * FROM entries WHERE id = ?");
+    $results = $db->prepare("SELECT * FROM entries
+      WHERE id = ?");
     $results->bindValue(1,$id,PDO::PARAM_INT);
     $results->execute();
   } catch (Exception $e){
@@ -40,6 +51,25 @@ function getDetailedEntry($id){
 
   $entries = $results->fetch(PDO::FETCH_ASSOC);
   return $entries;
+}
+
+function getTags($id){
+  include("connection.php");
+
+  try {
+    $results = $db->prepare("SELECT tags.tag_id,tags.tag FROM tags
+      JOIN entries_tags ON entries_tags.tag_id = tags.tag_id
+      JOIN entries ON entries.id = entries_tags.entry_id
+      WHERE id = ?");
+    $results->bindValue(1,$id,PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e){
+    echo "No tags retrieved";
+    exit;
+  }
+
+  $tags = $results->fetchAll(PDO::FETCH_ASSOC);
+  return $tags;
 }
 
 function addEntry($title,$date,$time_spent,$learned,$resources){

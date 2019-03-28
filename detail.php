@@ -1,9 +1,11 @@
 <?php
+ini_set('display_errors','on');
 include 'inc/header.php';
 include 'inc/functions.php';
 
 $id = trim(filter_input(INPUT_GET,'id', FILTER_SANITIZE_NUMBER_INT));
 $entry = getDetailedEntry($id);
+$tags = getTags($id);
 
 if(isset($_POST['delete'])){
   if(deleteEntry(filter_input(INPUT_POST,'delete',FILTER_SANITIZE_NUMBER_INT))){
@@ -43,6 +45,18 @@ if (isset($error_message)) {
                         <div class="entry">
                             <h3>Resources to Remember:</h3>
                             <p><?php echo htmlspecialchars_decode($entry['resources']); ?></p>
+                        </div>
+                        <div class="entry">
+                            <h3>Tags:</h3>
+                            <ul>
+                                <?php if(!empty($tags)){
+                                    foreach($tags as $tag){
+                                        echo '<li><a href="index.php?tag=' . $tag['tag_id'] . "\">";
+                                        echo $tag['tag'];
+                                        echo '</a></li>';
+                                    }
+                                } ?>
+                            </ul>
                         </div>
                     </article>
                 </div>
