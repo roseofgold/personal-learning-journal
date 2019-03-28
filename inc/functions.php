@@ -133,19 +133,45 @@ function editEntry($title,$date,$time_spent,$learned,$resources,$id){
 
 function editTags($tag_list,$id){
   include("connection.php");
-// Add list of tags/id's to SQLiteDatabase
-  foreach($tag_list as $key => $element) {
-    $sql = 'UPDATE entries_tags SET tag_id = ? WHERE entry_id = ?';
 
-    /*try{
+  // Make $tag_list into an array
+  $tag_list = explode(',',$tag_list);
+
+  // Get list of tags associated with this entry
+  $associated_tags= getTagAssociated($id);
+
+  // Compare Arrays
+  $tag_to_enter = array_diff($tag_list, $associated_tags); // Tags not associated with entry
+  $tag_to_remove = array_diff($associated_tags, $tag_list); // Entry not associated with tag
+  
+  // Delete Tag connection if not in entry list
+  foreach($tag_to_remove AS $key){
+    $sql = 'DELETE FROM entries_tags 
+      WHERE entries_tags.tag_id = ? AND entries_tags.entry_id = ?';
+    try{
       $results = $db->prepare($sql);
-      $results->bindValue(1,$tag_list,PDO::PARAM_INT);
-      $results->bindValue(2,$id,PDO::PARAM_INT);
+      $results->bindValue(1,$key,PDO::PARAM_STR);
+      $results->bindValue(2,$id,PDO::PARAM_STR);
       $results->execute();
     } catch (Exception $e){
       echo "Unable to retrieve results: " . $e->getMessage();
-      exit;
-    }*/
+    }
+  }
+  // Add Tag connection if in entry list
+
+}
+
+function getTagAssociated($id){
+  $sql = 'SELECT tag FROM tags 
+    JOIN entries_tags ON tags.tag_id = entries_tags.tag_id 
+    JOIN entries ON entries_tags.entry_id = entries.id 
+    WHERE entries.id = ?';
+  try{
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$id,PDO::PARAM_STR);
+    $results->execute();
+  } catch (Exception $e){
+    echo "Unable to retrieve results: " . $e->getMessage();
   }
   return $results;
 }
