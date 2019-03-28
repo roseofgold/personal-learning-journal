@@ -18,10 +18,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember, Tags';
   } else{
     if(editEntry($title,$date,$timeSpent,$whatLearned,$resources,$id)){
-      header('Location: detail.php?id=?'.$id);
-      exit;
+      if(editTags($tag_list,$id)){
+        header('Location: detail.php?id='.$id);
+        exit;
+      } else {
+        $error_message = 'Tags not updated';
+      }
     } else {
-      $error_message = 'Entry was not updated';
+      $error_message = 'Entry was not updated.';
     }
   }
 } else {
