@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors", "on");
 include 'inc/header.php';
 include "inc/functions.php";
 

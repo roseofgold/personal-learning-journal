@@ -88,6 +88,22 @@ function getTagText($tag){
   return $results->fetch(PDO::FETCH_ASSOC);
 }
 
+function getTagID($tag){
+  include("connection.php");
+
+  try {
+    $results = $db->prepare("SELECT tag_id FROM tags
+      WHERE tag = ?");
+    $results->bindValue(1,$tag,PDO::PARAM_STR);
+    $results->execute();
+  } catch (Exception $e){
+    echo "No tags retrieved";
+    exit;
+  }
+
+  return $results->fetch(PDO::FETCH_ASSOC);
+}
+
 function addEntry($title,$date,$time_spent,$learned,$resources){
   include("connection.php");
 
@@ -138,30 +154,108 @@ function editTags($tag_list,$id){
   $tag_list = explode(',',$tag_list);
 
   // Get list of tags associated with this entry
-  $associated_tags= getTagAssociated($id);
+  $associated_tags = getTagAssociated($id);
+  for($i=0;$i<(count($associated_tags));$i++){
+    $associated_tags_array[] = $associated_tags[$i]['tag'];
+  }
 
-  // Compare Arrays
-  $tag_to_enter = array_diff($tag_list, $associated_tags); // Tags not associated with entry
-  $tag_to_remove = array_diff($associated_tags, $tag_list); // Entry not associated with tag
-  
-  // Delete Tag connection if not in entry list
-  foreach($tag_to_remove AS $key){
-    $sql = 'DELETE FROM entries_tags 
-      WHERE entries_tags.tag_id = ? AND entries_tags.entry_id = ?';
-    try{
-      $results = $db->prepare($sql);
-      $results->bindValue(1,$key,PDO::PARAM_STR);
-      $results->bindValue(2,$id,PDO::PARAM_STR);
-      $results->execute();
-    } catch (Exception $e){
-      echo "Unable to retrieve results: " . $e->getMessage();
+  //Check if entry tags are all associated
+  foreach($associated_tags_array AS $key => $i){
+    if(!in_array($i,$tag_list)){
+      // Tag is associated, but shouldn't be. Remove association with the entry
+      $tag_id = getTagID($i);
+      //echo "$key is the key to '$i' and should be disassociated with entry $id";
+      removeTag($tag_id['tag_id'],$id);
     }
   }
-  // Add Tag connection if in entry list
 
+  // Check if entered tags are already associated with the entry
+  foreach($tag_list AS $key => $i){
+    if(!in_array($i,$associated_tags_array)){
+      //echo "$key is the key to '$i' and needs added to the association";
+      // Check to see if tag is already created
+      checkTag($i);
+
+      // Tag isn't associated with the entry. Associate tag with the entry
+      // addTagAssociation($key,$id);
+    }
+  }
+}
+
+function checkTag($i){
+  include("connection.php");
+
+  $tag_name = trim($i);
+  
+  $sql = 'SELECT * FROM tags WHERE tag = ?';
+  try{
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$tag_name,PDO::PARAM_STR);
+    $results->execute();
+  } catch (Exception $e){
+    echo "Unable to retrieve results: " . $e->getMessage();
+  }
+
+  if($results->rowcount()>0){
+    //No Results. Needs Added
+    addTag($tag_name);
+  }
+  
+  return $results[];
+}
+
+function addTag($tag_name){
+  include("connection.php");
+
+  $sql = 'INSERT INTO tags(tag) VALUES(?)';
+  try{
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$tag_name,PDO::PARAM_STR);
+    $results->execute();
+  } catch (Exception $e){
+    echo "Unable to retrieve results: " . $e->getMessage();
+  }
+
+  return $results;
+}
+
+function addTagAssociation($tag_id,$entry_id){
+  include("connection.php");
+
+  $sql = 'INSERT INTO entries_tags(tag_id,entry_id)
+    VALUES(?,?)';
+  try{
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$tag_id,PDO::PARAM_INT);
+    $results->bindValue(2,$entry_id,PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e){
+    echo "Unable to insert results: " . $e->getMessage();
+  }
+
+  return $results;
+}
+
+function removeTag($tag_id,$entry_id){
+  include("connection.php");
+
+  $sql = 'DELETE FROM entries_tags
+    WHERE tag_id = ? AND entry_id = ?';
+  try{
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$tag_id,PDO::PARAM_INT);
+    $results->bindValue(2,$entry_id,PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e){
+    echo "Unable to insert results: " . $e->getMessage();
+  }
+
+  return $results;
 }
 
 function getTagAssociated($id){
+  include("connection.php");
+  
   $sql = 'SELECT tag FROM tags 
     JOIN entries_tags ON tags.tag_id = entries_tags.tag_id 
     JOIN entries ON entries_tags.entry_id = entries.id 
@@ -173,7 +267,7 @@ function getTagAssociated($id){
   } catch (Exception $e){
     echo "Unable to retrieve results: " . $e->getMessage();
   }
-  return $results;
+  return $results->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function deleteEntry($id){
