@@ -131,6 +131,25 @@ function editEntry($title,$date,$time_spent,$learned,$resources,$id){
     return $results;
 }
 
+function editTags($tag_list,$id){
+  include("connection.php");
+// Add list of tags/id's to SQLiteDatabase
+  foreach($tag_list as $key => $element) {
+    $sql = 'UPDATE entries_tags SET tag_id = ? WHERE entry_id = ?';
+
+    /*try{
+      $results = $db->prepare($sql);
+      $results->bindValue(1,$tag_list,PDO::PARAM_INT);
+      $results->bindValue(2,$id,PDO::PARAM_INT);
+      $results->execute();
+    } catch (Exception $e){
+      echo "Unable to retrieve results: " . $e->getMessage();
+      exit;
+    }*/
+  }
+  return $results;
+}
+
 function deleteEntry($id){
   include("connection.php");
 
