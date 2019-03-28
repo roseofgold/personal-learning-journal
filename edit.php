@@ -1,5 +1,4 @@
 <?php
-ini_set("display_errors", "on");
 include 'inc/header.php';
 include "inc/functions.php";
 
@@ -16,7 +15,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   if (empty($title) || empty($date) || empty($timeSpent) || empty($whatLearned) || empty($resources)) {
       $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember';
   } else{
-
     if(editEntry($title,$date,$timeSpent,$whatLearned,$resources,$id)){
       header('Location: detail.php?id=?'.$id);
       exit;
