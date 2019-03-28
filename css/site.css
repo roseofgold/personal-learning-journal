@@ -188,6 +188,11 @@ ul li a {
   color: white;
   font-weight: bold;
 }
+.tag{
+	display: block;
+	text-align: center;
+	border-bottom: 1px solid #000;
+}
 
 
 

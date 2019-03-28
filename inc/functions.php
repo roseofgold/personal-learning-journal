@@ -72,6 +72,22 @@ function getTags($id){
   return $tags;
 }
 
+function getTagText($tag){
+  include("connection.php");
+
+  try {
+    $results = $db->prepare("SELECT tag FROM tags
+      WHERE tag_id = ?");
+    $results->bindValue(1,$tag,PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e){
+    echo "No tags retrieved";
+    exit;
+  }
+
+  return $results->fetch(PDO::FETCH_ASSOC);
+}
+
 function addEntry($title,$date,$time_spent,$learned,$resources){
   include("connection.php");
 
