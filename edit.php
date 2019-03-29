@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $timeSpent = filter_input(INPUT_POST,'timeSpent',FILTER_SANITIZE_STRING);
   $whatLearned = trim(filter_input(INPUT_POST,'whatILearned',FILTER_SANITIZE_STRING));
   $resources = trim(filter_input(INPUT_POST,'ResourcesToRemember',FILTER_SANITIZE_STRING));
-  $tag_list = trim(filter_input(INPUT_POST,'tags',FILTER_SANITIZE_STRING));
+  $tag_list = trim(strtolower(filter_input(INPUT_POST,'tags',FILTER_SANITIZE_STRING)));
 
   if (empty($title) || empty($date) || empty($timeSpent) || empty($whatLearned) || empty($resources) || empty($tag_list)) {
       $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember, Tags';
@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $resources = $entry['resources'];
   $tag_list = '';
   foreach($tags as $key => $element) {
-    $tag_list .= $element['tag'];
+    $tag_list .= strtolower($element['tag']);
     end($tags);
     if (!($key === key($tags))){
       $tag_list .= ',';
