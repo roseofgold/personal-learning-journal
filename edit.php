@@ -67,7 +67,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                       <textarea id="what-i-learned" rows="5" name="whatILearned"><?php echo htmlspecialchars_decode($whatLearned); ?></textarea>
                       <label for="resources-to-remember">Resources to Remember</label>
                       <textarea id="resources-to-remember" rows="5" name="ResourcesToRemember"><?php echo htmlspecialchars_decode($resources); ?></textarea>
-                      <label for="tags">Tags</label>
+                      <label for="tags">Tags (separate with a comma)</label>
                       <input id="tags" type="text" name="tags" value="<?php echo $tag_list;?>"><br>
                       <input type="submit" value="Publish Entry" class="button">
                       <a href="#" class="button button-secondary">Cancel</a>
