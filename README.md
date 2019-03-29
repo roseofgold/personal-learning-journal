@@ -13,11 +13,11 @@ The purpose of this application is to test basic understanding of PHP, sqlite co
   * [x] Entries should be sorted by date.
 * [x] Include a link to add an entry.
 * [x] Create "details" view with the entries displaying all fields: title, date, time_spent, learned, and resources. Include a link to edit the entry.
-* Add the ability to delete a journal entry.
+* [x] Add the ability to delete a journal entry.
 
 ## Extra Features
 * [x] Add tags table and link tags to journal entries in the database.
-* [x]Add tags to journal entries on the listing page
+* [x] Add tags to journal entries on the listing page
 * [x] Allow the tags to be links to a list of entries, filtered by specific tags.
 
 ## Support
