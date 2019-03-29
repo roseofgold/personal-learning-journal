@@ -28,9 +28,19 @@ function displayShortEntries($tag = NULL){
   $entryShort = getEntryShort($tag);
 
   foreach ($entryShort as $key) {
+    $tags = getTags($key['id']);
     echo "<article>";
     echo "<h2><a href=\"detail.php?id=" . $key['id'] . "\">" . $key['title'] . "</a></h2>";
     echo "<time datetime=\"" . $key['date'] . "\">" . date('F j, Y',strtotime($key['date'])) . "</time>";
+    echo "<div>";
+    if(!empty($tags)){
+        foreach($tags as $tag){
+            echo '<a href="index.php?tag=' . $tag['tag_id'] . "\" class=\"journal-tag\">";
+            echo $tag['tag'];
+            echo '</a>';
+        }
+    }
+    echo "</div>";
     echo "</article>";
   }
 

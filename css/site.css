@@ -193,8 +193,13 @@ ul li a {
 	text-align: center;
 	border-bottom: 1px solid #000;
 }
-
-
+a.journal-tag {
+    border: 1px solid;
+    padding: 2px;
+    margin: 2px;
+    display: inline-block;
+    text-decoration: none;
+}
 
 /* ==========================================================================
    Form Styles
