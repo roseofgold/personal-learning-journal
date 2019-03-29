@@ -2,7 +2,7 @@
 include 'inc/header.php';
 include "inc/functions.php";
 
-$title = $date = $whatLearned = $resources = $timeSpent = '';
+$title = $date = $whatLearned = $resources = $timeSpent = $tag_list = '';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $title = trim(filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING));
@@ -10,13 +10,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $timeSpent = filter_input(INPUT_POST,'timeSpent',FILTER_SANITIZE_STRING);
   $whatLearned = trim(filter_input(INPUT_POST,'whatILearned',FILTER_SANITIZE_STRING));
   $resources = trim(filter_input(INPUT_POST,'ResourcesToRemember',FILTER_SANITIZE_STRING));
+  $tag_list = trim(filter_input(INPUT_POST,'tags',FILTER_SANITIZE_STRING));
 
-  if (empty($title) || empty($date) || empty($timeSpent) || empty($whatLearned) || empty($resources)) {
-      $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember';
+  if (empty($title) || empty($date) || empty($timeSpent) || empty($whatLearned) || empty($resources) || empty($tag_list)) {
+    $error_message = 'Please fill in the required fields: Title, Date, Time Spent, What I Learned, Resources To Remember, Tags';
   } else{
     if(addEntry($title,$date,$timeSpent,$whatLearned,$resources)){
-      header('Location: index.php');
-      exit;
+      $id = getEntryID($title);
+      if(editTags($tag_list,$id['id'])){
+        header('Location: index.php');
+        exit;
+      }
     } else {
       $error_message = 'Entry was not entered';
     }
@@ -44,6 +48,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         <textarea id="what-i-learned" rows="5" name="whatILearned"><?php echo htmlspecialchars($whatLearned); ?></textarea>
                         <label for="resources-to-remember">Resources to Remember</label>
                         <textarea id="resources-to-remember" rows="5" name="ResourcesToRemember"><?php echo htmlspecialchars($resources); ?></textarea>
+                        <label for="tags">Tags</label>
+                        <input id="tags" type="text" name="tags" value="<?php echo $tag_list;?>"><br>
                         <input type="submit" value="Publish Entry" class="button">
                         <a href="#" class="button button-secondary">Cancel</a>
                     </form>

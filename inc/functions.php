@@ -97,6 +97,21 @@ function getTagText($tag){
 
   return $results->fetch(PDO::FETCH_ASSOC);
 }
+function getEntryID($title){
+  include("connection.php");
+
+  try {
+    $results = $db->prepare("SELECT id FROM entries
+      WHERE title = ?");
+    $results->bindValue(1,$title,PDO::PARAM_STR);
+    $results->execute();
+  } catch (Exception $e){
+    echo "No tags retrieved";
+    exit;
+  }
+
+  return $results->fetch(PDO::FETCH_ASSOC);
+}
 
 function getTagID($tag){
   include("connection.php");
