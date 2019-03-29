@@ -174,19 +174,28 @@ function editTags($tag_list,$id){
     if(!in_array($i,$associated_tags_array)){
       //echo "$key is the key to '$i' and needs added to the association";
       // Check to see if tag is already created
-      checkTag($i);
+      $tagChecked = checkTag($i);
+
+      // if tag isn't found add tag
+      $tag_name = trim($i);
+      if($tagChecked==0){
+        addTag($tag_name);
+        $tag_id = getTagID($tag_name);
+      }
 
       // Tag isn't associated with the entry. Associate tag with the entry
-      // addTagAssociation($key,$id);
+      addTagAssociation($tag_id['tag_id'],$id);
     }
   }
+
+  return true;
 }
 
 function checkTag($i){
   include("connection.php");
 
   $tag_name = trim($i);
-  
+
   $sql = 'SELECT * FROM tags WHERE tag = ?';
   try{
     $results = $db->prepare($sql);
@@ -196,12 +205,7 @@ function checkTag($i){
     echo "Unable to retrieve results: " . $e->getMessage();
   }
 
-  if($results->rowcount()>0){
-    //No Results. Needs Added
-    addTag($tag_name);
-  }
-  
-  return $results[];
+  return $results->rowCount();
 }
 
 function addTag($tag_name){
@@ -255,10 +259,10 @@ function removeTag($tag_id,$entry_id){
 
 function getTagAssociated($id){
   include("connection.php");
-  
-  $sql = 'SELECT tag FROM tags 
-    JOIN entries_tags ON tags.tag_id = entries_tags.tag_id 
-    JOIN entries ON entries_tags.entry_id = entries.id 
+
+  $sql = 'SELECT tag FROM tags
+    JOIN entries_tags ON tags.tag_id = entries_tags.tag_id
+    JOIN entries ON entries_tags.entry_id = entries.id
     WHERE entries.id = ?';
   try{
     $results = $db->prepare($sql);
@@ -285,9 +289,9 @@ function deleteEntry($id){
   }
 
   if($results->rowCount() >0){
-      return true;
+    return true;
   } else{
-      return false;
+    return false;
   }
 }
 

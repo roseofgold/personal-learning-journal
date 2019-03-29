@@ -7,7 +7,8 @@ $entry = getDetailedEntry($id);
 $tags = getTags($id);
 
 if(isset($_POST['delete'])){
-  if(deleteEntry(filter_input(INPUT_POST,'delete',FILTER_SANITIZE_NUMBER_INT))){
+  $id = filter_input(INPUT_POST,'delete',FILTER_SANITIZE_NUMBER_INT);
+  if(deleteEntry($id)){
     header('location:index.php?msg=Entry+Deleted');
     exit;
   } else{
