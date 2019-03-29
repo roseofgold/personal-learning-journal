@@ -151,7 +151,7 @@ function editTags($tag_list,$id){
   include("connection.php");
 
   // Make $tag_list into an array
-  $tag_list = explode(',',$tag_list);
+  $tag_list = array_filter(explode(',',$tag_list),'strlen');
 
   // Get list of tags associated with this entry
   $associated_tags = getTagAssociated($id);
