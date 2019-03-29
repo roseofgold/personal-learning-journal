@@ -7,12 +7,16 @@ $entry = getDetailedEntry($id);
 $tags = getTags($id);
 
 if(isset($_POST['delete'])){
-  $id = filter_input(INPUT_POST,'delete',FILTER_SANITIZE_NUMBER_INT);
-  if(deleteEntry($id)){
-    header('location:index.php?msg=Entry+Deleted');
-    exit;
+  $delid = filter_input(INPUT_POST,'delete',FILTER_SANITIZE_NUMBER_INT);
+  if(deleteEntry($delid)){
+    if(removeTagAssociation($id)){
+      header('location:index.php?msg=Entry+Deleted');
+      exit;
+    } else {
+      header('location:details.php?id=' . $id . '?msg=Unable+to+Delete+Tags');
+      exit;
+    }
   } else{
-    echo 'false';
     header('location:details.php?id=' . $id . '?msg=Unable+to+Delete+Entry');
     exit;
   }

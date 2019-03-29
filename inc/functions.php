@@ -257,6 +257,22 @@ function removeTag($tag_id,$entry_id){
   return $results;
 }
 
+function removeTagAssociation($entry_id){
+  include("connection.php");
+
+  $sql = 'DELETE FROM entries_tags
+    WHERE entry_id = ?';
+  try{
+    $results = $db->prepare($sql);
+    $results->bindValue(1,$entry_id,PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e){
+    echo "Unable to insert results: " . $e->getMessage();
+  }
+
+  return $results;
+}
+
 function getTagAssociated($id){
   include("connection.php");
 
