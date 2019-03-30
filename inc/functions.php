@@ -202,7 +202,7 @@ function editTags($tag_list,$id){
       $tagChecked = checkTag($i);
 
       // if tag isn't found add tag
-      $tag_name = trim($i);
+      $tag_name = trim(strtolower($i));
       if($tagChecked==0){
         addTag($tag_name);
         $tag_id = getTagID($tag_name);
